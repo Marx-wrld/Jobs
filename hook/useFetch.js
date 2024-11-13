@@ -6,31 +6,26 @@ const useFetch = (endpoint, query) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const axios = require('axios');
-
     const options = {
     method: 'GET',
     url: `https://jsearch.p.rapidapi.com/${endpoint}`,
-    params: {
-        ...query
-    },
     headers: {
         'x-rapidapi-key': 'fa215201c6msh00f0fb15220e24ap102a5ejsna2766eaea227',
         'x-rapidapi-host': 'jsearch.p.rapidapi.com'
-    }
+    },
+    params: { ...query },
     };
 
-    const fetchData = async() => {
+    const fetchData = async () => {
         setIsLoading(true);
 
         try{
             const response = await axios.request(options);
-
-            setData(response.data.data);
+            setData(response.data.data || []);
             setIsLoading(false);
         } catch (error) {
             setError(error);
-            alert('There is an error!')
+            alert('There is an error fetching data from the API!');
         } finally{
             setIsLoading(false);
         }
